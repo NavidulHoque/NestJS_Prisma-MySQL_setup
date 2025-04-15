@@ -24,7 +24,42 @@ npm install @prisma/client
 npx prisma init --datasource-provider mysql
 ```
 
-## 🛠️ Step 4: Setup Docker and run phpMyAdmin
+## 🛠️ Step 4: Modify env and schema.prisma
+
+### 1. schema.prisma
+
+You will see in schema.prisma,
+
+```bash
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generator/prisma"
+}
+```
+
+Remove output field,
+
+```bash
+generator client {
+  provider = "prisma-client-js"
+}
+```
+
+### 2. env
+
+You will see in env,
+
+```bash
+DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
+```
+
+replace it with,
+
+```bash
+DATABASE_URL="mysql://root:root@localhost:3306/anyDatabaseName"
+```
+
+## 🛠️ Step 5: Setup Docker and run phpMyAdmin
 
 If you don’t have Docker installed locally,
 
@@ -67,41 +102,6 @@ Now you can find phpMyAdmin server on port 8080
 - server - mysql
 - username - root
 - password - root 
-
-## 🛠️ Step 5: Modify env and schema.prisma
-
-### 1. schema.prisma
-
-You will see in schema.prisma,
-
-```bash
-generator client {
-  provider = "prisma-client-js"
-  output   = "../generator/prisma"
-}
-```
-
-Remove output field,
-
-```bash
-generator client {
-  provider = "prisma-client-js"
-}
-```
-
-### 2. env
-
-You will see in env,
-
-```bash
-DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
-```
-
-replace it with,
-
-```bash
-DATABASE_URL="mysql://root:root@localhost:3306/anyDatabaseName"
-```
 
 ## 🛠️ Step 6: Add a Schema in schema.prisma
 
@@ -177,7 +177,15 @@ import { PrismaService } from './prisma.service';
 export class PrismaModule {}
 ```
 
-## 🛠️ Step 11: Start Building APIs
+## 🛠️ Step 11: Run Prisma Studio Server
+
+```bash
+npx prisma studio
+```
+
+Prisma server will run in another port 5555
+
+## 🛠️ Step 12: Start Building APIs
 
 Now you can:
 - ✅ Create UserController (nest generate controller user).
@@ -201,7 +209,8 @@ npx prisma generate
 
 ### Cannot find module '@prisma/client'?
 
-- Delete node_modules and reinstall (npm install).
+- Delete node_modules, reinstall (npm install).
+- If it doesn't solves the issue then uninstall one drive or remove one drive from your nest js project. It sometimes create permission problems in node_modules
 
 --- 
 
