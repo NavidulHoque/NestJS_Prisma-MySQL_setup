@@ -1,5 +1,4 @@
-// src/user/user.controller.ts
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -8,6 +7,6 @@ export class UserController {
 
   @Post()
   create(@Body() body: { email: string }) {
-    return this.userService.create(body);
+    return this.userService.create(body)
   }
 }

@@ -1,5 +1,5 @@
 // src/user/user.service.ts
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 
@@ -7,7 +7,15 @@ import { Prisma } from '@prisma/client';
 export class UserService {
   constructor(private prisma: PrismaService) { }
 
-  create(data: Prisma.UserCreateInput) {
-    return this.prisma.user.create({ data });
+  async create(data: Prisma.UserCreateInput) {
+    try {
+      const createdUser = await this.prisma.user.create({ data });
+      return createdUser
+    }
+
+    catch (error) {
+      console.log(error.message)
+      throw new BadRequestException('User already exists')
+    }
   }
 }
