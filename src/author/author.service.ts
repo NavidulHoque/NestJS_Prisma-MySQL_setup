@@ -4,18 +4,35 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthorService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   create(data: Prisma.AuthorCreateInput) {
     return this.prisma.author.create({ data });
   }
 
   findAll() {
-    return this.prisma.author.findMany({ include: { books: true, user: true } });
+    return this.prisma.author.findMany({
+      include: {
+        books: true,
+        user: {
+          select: {
+            email: true,
+          },
+        }
+      }
+    });
   }
 
   findOne(id: number) {
-    return this.prisma.author.findUnique({ where: { id }, include: { books: true, user: true } });
+    return this.prisma.author.findUnique({
+      where: { id }, include: {
+        books: true, user: {
+          select: {
+            email: true,
+          },
+        }
+      }
+    });
   }
 
   update(id: number, data: Prisma.AuthorUpdateInput) {

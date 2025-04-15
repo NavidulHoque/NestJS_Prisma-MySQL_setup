@@ -16,12 +16,12 @@ export class AuthorController {
     return this.authorService.findAll();
   }
 
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.authorService.findOne(+id);
   }
 
-  @Put(':id')
+  @Put('/:id')
   update(@Param('id') id: string, @Body() data: Prisma.AuthorUpdateInput) {
     return this.authorService.update(+id, data);
   }
