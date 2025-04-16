@@ -192,6 +192,79 @@ Now you can:
 - ✅ Add REST/GraphQL endpoints.
 - ✅ Extend your schema with new models.
 
+# Deployment
+
+This project is a NestJS backend application connected to a MySQL database hosted on [Railway](https://railway.app/).
+
+## 🚀 Deployment Summary
+
+- **Backend**: NestJS (deployed to [Render](https://render.com) or similar platform)
+- **Database**: MySQL (hosted on [Railway](https://railway.app))
+- **ORM**: Prisma
+- **Schema Management**: Prisma Migrations
+- **Cloud Database Access**: SQLTools (VS Code extension)
+
+## Deployment of MySQL
+
+## 🛠️ Step 1: Get the Railway database URL
+
+- Go to [Railway](https://railway.app).
+- Click deploy a new project. 
+- Click deploy mysql.
+- Wait for a moment while MySQL db being created.
+- Click connect button at top right.
+- Copy public network's connection URL and paste it in DATABASE_URL in .env or when deploying NestJS in render or other platform then copy paste the url in DATABASE_URL.
+
+## 🛠️ Step 2: Sync Prisma Schema to Railway MySQL
+
+```bash
+npx prisma generate
+npx prisma migrate deploy
+```
+
+## 🛠️ Step 3: Connecting to Railway MySQL via VS Code
+
+- Install SQLTools extension in VS Code.
+- Install MySQL Driver for SQLTools.
+- Open the SQLTools Connections panel.
+- Create a new connection with the following settings:
+
+```bash
+Name: Railway Cloud
+Driver: MySQL/MariaDB
+Server: metro.proxy.rlwy.net  #can vary from the connection url
+Port: 46923  #can vary from the connection url
+Database: railway  # you can name anything of the database from the connection url
+Username: root
+Password: cgnYLBOFoCtjUjJDtVypZqaXejBUcqJR  #can vary from the connection url
+```
+
+- Click "Save and Connect" to access the cloud database.
+
+## Deployment of NestJS
+
+- Go to [Render](https://render.com)
+- Create a new Web Service from your GitHub repo 
+- Build Command:
+
+```bash
+npm install && npx prisma generate && npm run build
+```
+
+- Start Command:
+
+```bash
+npm run start:prod
+```
+
+- Add this in Environment Variables:
+
+```bash
+DATABASE_URL = mysql://root:cgnYLBOFoCtjUjJDtVypZqaXejBUcqJR@metro.proxy.rlwy.net:46923/railway  # can vary from railway connection url
+```
+
+- Then deploy.
+
 ## 🔧 Troubleshooting
 
 ### Prisma not initialized?

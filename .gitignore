@@ -4,6 +4,9 @@
 /build
 /mysql
 
+# Ignore SQLTools session files
+*.session.sql
+
 # Logs
 logs
 *.log
